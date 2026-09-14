@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MH Wilds – Otimizador de Builds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Cinzel:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="hero-header">
+            <div class="logo-badge">MH WILDS</div>
+            <h1>Otimizador de Builds</h1>
+            <p class="subtitle">Monte a combinação perfeita de Armaduras e Gemas focando nas suas Habilidades
+                prioritárias.</p>
+        </header>
+
+        <main class="main-layout">
+            <!-- Left Panel: Configurations -->
+            <section class="config-panel">
+                <!-- Step 1: Weapon -->
+                <div class="card setup-card">
+                    <div class="card-header">
+                        <div class="step-num">1</div>
+                        <div>
+                            <h2>Arma Inicial</h2>
+                            <p class="card-desc">Escolha a arma que fará parte da sua build.</p>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="weapon-select">Selecione a Arma:</label>
+                        <select id="weapon-select" class="custom-select"></select>
+                    </div>
+                </div>
+
+                <!-- Step 2: Charm -->
+                <div class="card setup-card">
+                    <div class="card-header">
+                        <div class="step-num">2</div>
+                        <div>
+                            <h2>Amuleto <span class="tag-optional">(Opcional)</span></h2>
+                            <p class="card-desc">Fixe um amuleto específico ou deixe o otimizador escolher o ideal.</p>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="charm-select">Selecione o Amuleto:</label>
+                        <select id="charm-select" class="custom-select">
+                            <option value="">Deixar o Otimizador Escolher</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Step 3: Priority Skills -->
+                <div class="card setup-card">
+                    <div class="card-header">
+                        <div class="step-num">3</div>
+                        <div>
+                            <h2>Habilidades Desejadas</h2>
+                            <p class="card-desc">Adicione habilidades em ordem de prioridade. A primeira terá a maior
+                                prioridade.</p>
+                        </div>
+                    </div>
+
+                    <!-- Filter Menu by 14 Category Icons -->
+                    <div class="category-filters-box">
+                        <div class="filters-header">
+                            <span class="filters-label">Filtrar Habilidades por Categoria:</span>
+                            <button type="button" class="btn-text-small" id="toggle-all-filters">Marcar / Desmarcar
+                                Todos</button>
+                        </div>
+                        <div class="category-icons-grid" id="category-icons-grid"></div>
+                    </div>
+
+                    <!-- Search Input & Skill Select Pool -->
+                    <div class="skill-search-group">
+                        <input type="text" id="skill-search-input" class="custom-input"
+                            placeholder="🔍 Filtrar por nome ou descrição..." />
+                    </div>
+
+                    <!-- <div class="add-skill-box">
+                        <select id="skill-pool" class="custom-select"></select>
+                        <button id="add-skill" class="btn btn-secondary">+ Adicionar</button>
+                    </div>
+
+                    <div id="skill-pool-desc-preview" class="skill-pool-desc-preview"></div> -->
+                    <div class="add-skill-box">
+                        <div class="skill-combobox" id="skill-combobox">
+                            <button type="button" id="skill-combobox-trigger" class="custom-select combobox-trigger"
+                                aria-haspopup="listbox" aria-expanded="false">
+                                <span class="combobox-trigger-content" id="skill-combobox-label">
+                                    <span class="combobox-placeholder">Selecione uma habilidade...</span>
+                                </span>
+                                <span class="combobox-arrow">▾</span>
+                            </button>
+                            <div class="combobox-panel" id="skill-combobox-panel" role="listbox">
+                                <div class="combobox-options" id="skill-combobox-options"></div>
+                            </div>
+                        </div>
+                        <button id="add-skill" class="btn btn-secondary">+ Adicionar</button>
+                    </div>
+
+                    <div id="skill-pool-desc-preview" class="skill-pool-desc-preview"></div>
+
+                    <!-- Preset Suggestions -->
+                    <div class="presets-box">
+                        <span class="presets-label">💡 Sugestões de Conjuntos (Presets):</span>
+                        <div class="presets-buttons">
+                            <button type="button" class="btn-preset" onclick="addPreset('damage')">⚔️ Dano</button>
+                            <button type="button" class="btn-preset" onclick="addPreset('crit')">🎯 Crítico</button>
+                            <button type="button" class="btn-preset" onclick="addPreset('defense')">🛡️ Defesa</button>
+                            <button type="button" class="btn-preset" onclick="addPreset('stamina')">⚡ Vigor</button>
+                            <button type="button" class="btn-preset" onclick="addPreset('element')">🔥 Ataque
+                                Elemental</button>
+                            <button type="button" class="btn-preset" onclick="addPreset('comfort')">🛠️ Conforto &
+                                Utilidade</button>
+                        </div>
+                    </div>
+
+                    <div id="skill-list" class="priority-skills-container">
+                        <div class="empty-state-skills">Nenhuma habilidade adicionada ainda. Selecione acima ou clique
+                            num conjunto sugerido.</div>
+                    </div>
+                </div>
+
+                <button id="optimize-btn" class="btn btn-primary btn-large">
+                    <span class="btn-icon">⚡</span> Otimizar Build Agora
+                </button>
+            </section>
+
+            <!-- Right Panel: Results -->
+            <section class="results-panel">
+                <div id="results-placeholder" class="card empty-results-card">
+                    <div class="placeholder-icon">⚔️</div>
+                    <h2>Sua Build Ideal Aparecerá Aqui</h2>
+                    <p>Selecione a arma, defina as habilidades por prioridade e clique em "Otimizar Build Agora".</p>
+                </div>
+
+                <div id="loading-spinner" class="card loading-card" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Calculando melhor combinação de armaduras e encaixes...</p>
+                </div>
+
+                <div id="results-content" style="display: none;">
+                    <!-- Active Skills Summary -->
+                    <div class="card result-card">
+                        <div class="card-title-bar">
+                            <span class="card-title-icon">🔥</span>
+                            <h2>Resumo Geral das Habilidades</h2>
+                        </div>
+                        <div id="skills-summary-grid" class="skills-summary-grid"></div>
+                    </div>
+
+                    <!-- Equipment Breakdown -->
+                    <div class="card result-card">
+                        <div class="card-title-bar">
+                            <span class="card-title-icon">🛡️</span>
+                            <h2>Equipamentos & Sugestão de Encaixes (Gemas)</h2>
+                        </div>
+                        <div id="equipment-grid" class="equipment-grid"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <div id="skill-tooltip" class="skill-tooltip" style="display:none;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
