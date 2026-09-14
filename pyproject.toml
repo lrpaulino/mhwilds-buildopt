@@ -57,6 +57,9 @@ Issues = "https://github.com/seu-usuario/mh-wilds-build-optimizer/issues"
 packages = ["backend"]
 include-package-data = false
 
+[tool.fastapi]
+entrypoint = "backend.main:app"
+
 # ---------------------------------------------------------------------------
 # Ruff — linter/formatter
 # ---------------------------------------------------------------------------
